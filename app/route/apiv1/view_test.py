@@ -15,4 +15,4 @@ class Cat(Resource):
     @api.marshal_with(model)
     def get(self, id):
         """Fetch a cat given its identifier"""
-        return id
+        return {"id": id}
