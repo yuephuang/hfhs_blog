@@ -3,10 +3,9 @@ import configparser
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-ENV = os.environ.get("ENV", "test")
+ENV = os.environ.get("ENV", "dev")
 conf_dir = os.path.join(base_dir, "config", "conf", f"{ENV}.conf")
-
-print(conf_dir)
+LOG_PATH = os.path.join(base_dir, "logs")
 
 env_config = {}
 
