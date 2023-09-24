@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 
-ModelBase = declarative_base() #<-元类
 
+ModelBase = declarative_base()  # <-元类
 
 
 def to_dict(self):

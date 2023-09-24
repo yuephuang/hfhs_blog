@@ -68,6 +68,8 @@ class LogManage:
         return create_handler("info", "platform")
 
 
+logger = LogManage()
+
 if __name__ == '__main__':
     loggers = LogManage()
     loggers.main().info("abc")
