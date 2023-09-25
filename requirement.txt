@@ -2,3 +2,5 @@ Flask==2.3.3
 SQLAlchemy== 2.0.20
 flask-restx==1.1.0
 concurrent-log-handler==0.9.24
+sqlalchemy==2.0.20
+pymysql==1.1.0

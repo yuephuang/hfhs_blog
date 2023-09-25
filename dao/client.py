@@ -5,6 +5,7 @@ from sqlalchemy import create_engine, QueuePool
 from sqlalchemy.orm import Session, sessionmaker
 
 from config.envion import env_config
+from dao.table import Base
 from log.logger_main import logger
 
 
@@ -30,6 +31,9 @@ class MysqlClient(DbClient):
         self.Session = sessionmaker()
         self.session = Session(bind=self.engine)
 
+    def _create_database(self):
+        Base.metadata.create_all(self.engine)
+
     def create_engine(self):
         engine = self.engine = create_engine(
             url=self.url,
@@ -44,7 +48,7 @@ class MysqlClient(DbClient):
         cond = cond if cond is not None else []
         with self.session as session:
             q = session.query(*colum)
-            q.filter(*cond)
+            q = q.filter(*cond)
         return q
 
     def query_one(self, colum: List, cond=None):
@@ -63,6 +67,43 @@ class MysqlClient(DbClient):
         res = q.all()
         return res
 
+    def insert(self, obj: dict):
+        """
+        格式为 user = User(user_name='Alice', age=20)
+        :param obj:
+        :return:
+        """
+        with self.session as session:
+            try:
+                obj = obj if isinstance(obj, list) else [obj]
+                start_time = time.time()
+                session.add_all(obj)
+                session.commit()
+                logger.platform().info(f"insert job process time {time.time() - start_time}s")
+            except Exception as e:
+                session.rollback()
+                logger.error().error(f"insert job process error, error exc :{e}")
+
+    def update(self, table, cond, update_date: dict):
+        with self.session as session:
+            try:
+                q = self.query(table, cond)
+                q.update(update_date)
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                logger.error().error(f"insert job process error, error exc :{e}")
+
+    def delete(self, table, cond):
+        with self.session as session:
+            try:
+                q = self.query(table, cond)
+                q.delete()
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                logger.error().error(f"insert job process error, error exc :{e}")
+
 
 if __name__ == '__main__':
     from dao.table import User
@@ -70,9 +111,6 @@ if __name__ == '__main__':
     mysql_client = MysqlClient(host=env_config.get("mysql_host"), port=env_config.get("mysql_prot"),
                                user=env_config.get("mysql_user"), password=env_config.get("mysql_password"),
                                dbname="huang")
-    result = mysql_client.query_count([User])
-    print(result)
-    result = mysql_client.query_order_by([User], order_by=[User.id], limit=10, offset=0)
-    print(result)
-    result = mysql_client.query_count([User])
-    print(result)
+    user = User(user_name='Alice', age=20)
+    mysql_client.insert(user)
+    mysql_client.update([User], cond=[User.user_name == 'Alice'], update_date={User.age: 30})
