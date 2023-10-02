@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 def to_dict(self):
-    return {c.name: getattr(self, c.name, None) for c in self.__table__.colums}
+    return {c.name: getattr(self, c.name, None) for c in self.__table__.columns}
 
 
 def ToDict(cls):
@@ -22,6 +22,7 @@ class User(Base):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
+    password = Column(String)
     user_name = Column(String(20))
     gender = Column(Boolean())
     email = Column(Integer())

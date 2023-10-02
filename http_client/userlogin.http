@@ -1,0 +1,17 @@
+POST http://127.0.0.1:5000/user/register
+Content-Type: application/json
+
+{
+  "user_name": "niao",
+  "gender": "man",
+  "email": "1340557218@qq.com",
+  "phone": "18898681786",
+  "age": 25,
+  "fans": 1
+}
+
+###
+GET http://127.0.0.1:5000/user/login?id=1
+Accept: application/json
+
+###
