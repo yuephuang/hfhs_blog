@@ -22,7 +22,7 @@ class User(Base):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
-    password = Column(String)
+    password = Column(String(255))
     user_name = Column(String(20))
     gender = Column(Boolean())
     email = Column(Integer())
@@ -39,7 +39,7 @@ class ImageGroupsType(Base):
     __tablename__ = 'image_groups_type'
 
     id = Column(Integer, primary_key=True)
-    image_group_name = Column(String)
+    image_group_name = Column(String(255))
     create_by = Column(Integer())
     create_date = Column(DateTime())
     update_date = Column(DateTime())
@@ -50,9 +50,9 @@ class ImageUser(Base):
     __tablename__ = 'image_user'
 
     id = Column(Integer, primary_key=True)
-    image_name = Column(String)
-    image_type = Column(String)
-    image_md5 = Column(String)
+    image_name = Column(String(255))
+    image_type = Column(String(255))
+    image_md5 = Column(String(255))
     create_by = Column(Integer())
     create_date = Column(DateTime())
     update_date = Column(DateTime())
@@ -62,6 +62,6 @@ class ImageUser(Base):
 class ImageMd5Url(Base):
     __tablename__ = 'image_md5_url'
 
-    image_md5 = Column(String, primary_key=True)
-    image_url = Column(String)
+    image_md5 = Column(String(255), primary_key=True)
+    image_url = Column(String(255))
     count = Column(Integer())
