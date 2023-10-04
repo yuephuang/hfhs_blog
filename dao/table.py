@@ -32,3 +32,36 @@ class User(Base):
     fans = Column(Integer())
     create_date = Column(DateTime())
     update_date = Column(DateTime())
+
+
+@ToDict
+class ImageGroupsType(Base):
+    __tablename__ = 'image_groups_type'
+
+    id = Column(Integer, primary_key=True)
+    image_group_name = Column(String)
+    create_by = Column(Integer())
+    create_date = Column(DateTime())
+    update_date = Column(DateTime())
+
+
+@ToDict
+class ImageUser(Base):
+    __tablename__ = 'image_user'
+
+    id = Column(Integer, primary_key=True)
+    image_name = Column(String)
+    image_type = Column(String)
+    image_md5 = Column(String)
+    create_by = Column(Integer())
+    create_date = Column(DateTime())
+    update_date = Column(DateTime())
+
+
+@ToDict
+class ImageMd5Url(Base):
+    __tablename__ = 'image_md5_url'
+
+    image_md5 = Column(String, primary_key=True)
+    image_url = Column(String)
+    count = Column(Integer())
